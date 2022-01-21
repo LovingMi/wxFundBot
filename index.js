@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-01-21 09:20:06
+ * @LastEditTime: 2022-01-21 09:47:54
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -16,7 +16,7 @@ const qyweixinUrl = "https://qyapi.weixin.qq.com";
 dayjs.extend(duration);
 dayjs.extend(LocalizedFormat);
 
-dotenv.config()
+dotenv.config();
 
 const { WX_COMPANY_ID, WX_APP_ID, WX_APP_SECRET } = process.env;
 
@@ -41,16 +41,51 @@ const weekToday = () => {
   return WEEKS[week];
 };
 
+const randomRgbaColor = () => {
+  //随机生成RGBA颜色
+  var r = Math.floor(Math.random() * 256); //随机生成256以内r值
+  var g = Math.floor(Math.random() * 256); //随机生成256以内g值
+  var b = Math.floor(Math.random() * 256); //随机生成256以内b值
+  var alpha = Math.random(); //随机生成1以内a值
+  return `rgb(${r},${g},${b},${alpha})`; //返回rgba(r,g,b,a)格式颜色
+};
+
+// icon
+const generateIcon = (size, text) => {
+  let colors = [
+    "rgb(239,150,26)",
+    "rgb(255,58,201)",
+    "rgb(111,75,255)",
+    "rgb(36,174,34)",
+    "rgb(80,80,80)",
+  ];
+  let cvs = document.createElement("canvas");
+  cvs.setAttribute("width", size[0]);
+  cvs.setAttribute("height", size[1]);
+  let ctx = cvs.getContext("2d");
+  ctx.fillStyle = randomRgbaColor();
+  ctx.fillRect(0, 0, size[0], size[1]);
+  ctx.fillStyle = "rgb(255,255,255)";
+  ctx.font = size[0] * 0.6 + "px Arial";
+  ctx.textBaseline = "middle";
+  ctx.textAlign = "center";
+  ctx.fillText(s, size[0] / 2, size[1] / 2);
+
+  return cvs.toDataURL("image/jpeg", 1);
+};
+
 // 图文消息
 const newsTemplate = (list) => {
   let articles = [];
   if (list && Array.isArray(list)) {
     articles = list.map((n) => {
       return {
-        title: `${n.name} ${n.fundcode} ${n.gszzl > 0 ? '+'+n.gszzl+'%' : n.gszzl+'%'}`,
+        title: `${n.name} ${n.fundcode} ${
+          n.gszzl > 0 ? "+" + n.gszzl + "%" : n.gszzl + "%"
+        }`,
         description: ``,
         url: fundDetailURL + n.fundcode,
-        picurl: "",
+        picurl: generateIcon([100, 100], n.name.slice(0, 1)),
       };
     });
   }
