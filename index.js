@@ -47,7 +47,7 @@ const newsTemplate = (list) => {
   if (list && Array.isArray(list)) {
     articles = list.map((n) => {
       return {
-        title: `${n.name} ${n.fundcode} ${n.gszzl}`,
+        title: `${n.name} ${n.fundcode} ${n.gszzl > 0 ? '+'+n.gszzl+'%' : n.gszzl+'%'}`,
         description: ``,
         url: fundDetailURL + n.fundcode,
         picurl: "",
