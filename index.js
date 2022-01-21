@@ -26,6 +26,12 @@ console.log({
   WX_APP_SECRET,
 });
 
+console.log({
+  WX_COMPANY_ID,
+  WX_APP_ID,
+  WX_APP_SECRET
+});
+
 const WEEKS = {
   1: "星期一",
   2: "星期二",
