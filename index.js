@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-01-21 09:04:41
+ * @LastEditTime: 2022-01-21 09:15:09
  */
 const axios = require("axios");
 const dayjs = require("dayjs");
@@ -15,8 +15,13 @@ const qyweixinUrl = "https://qyapi.weixin.qq.com";
 dayjs.extend(duration);
 dayjs.extend(LocalizedFormat);
 
-const { WX_COMPANY_ID, WX_APP_ID, WX_APP_SECRET } =
-  process.env;
+const { WX_COMPANY_ID, WX_APP_ID, WX_APP_SECRET } = process.env;
+
+console.log({
+  WX_COMPANY_ID,
+  WX_APP_ID,
+  WX_APP_SECRET
+});
 
 const WEEKS = {
   1: "星期一",
