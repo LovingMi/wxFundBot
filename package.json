@@ -9,10 +9,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "axios": "^0.21.1",
-    "dayjs": "^1.10.7"
+    "dayjs": "^1.10.7",
+    "dotenv": "^14.2.0"
   }
 }

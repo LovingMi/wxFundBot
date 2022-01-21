@@ -2,9 +2,10 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-01-21 09:15:09
+ * @LastEditTime: 2022-01-21 09:20:06
  */
 const axios = require("axios");
+const dotenv = require("dotenv");
 const dayjs = require("dayjs");
 const duration = require("dayjs/plugin/duration");
 const LocalizedFormat = require("dayjs/plugin/localizedFormat");
@@ -15,12 +16,14 @@ const qyweixinUrl = "https://qyapi.weixin.qq.com";
 dayjs.extend(duration);
 dayjs.extend(LocalizedFormat);
 
+dotenv.config()
+
 const { WX_COMPANY_ID, WX_APP_ID, WX_APP_SECRET } = process.env;
 
 console.log({
   WX_COMPANY_ID,
   WX_APP_ID,
-  WX_APP_SECRET
+  WX_APP_SECRET,
 });
 
 const WEEKS = {
