@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-01-21 09:47:54
+ * @LastEditTime: 2022-01-21 09:51:27
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -52,13 +52,6 @@ const randomRgbaColor = () => {
 
 // icon
 const generateIcon = (size, text) => {
-  let colors = [
-    "rgb(239,150,26)",
-    "rgb(255,58,201)",
-    "rgb(111,75,255)",
-    "rgb(36,174,34)",
-    "rgb(80,80,80)",
-  ];
   let cvs = document.createElement("canvas");
   cvs.setAttribute("width", size[0]);
   cvs.setAttribute("height", size[1]);
@@ -69,7 +62,7 @@ const generateIcon = (size, text) => {
   ctx.font = size[0] * 0.6 + "px Arial";
   ctx.textBaseline = "middle";
   ctx.textAlign = "center";
-  ctx.fillText(s, size[0] / 2, size[1] / 2);
+  ctx.fillText(text, size[0] / 2, size[1] / 2);
 
   return cvs.toDataURL("image/jpeg", 1);
 };
