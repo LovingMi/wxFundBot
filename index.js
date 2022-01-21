@@ -18,6 +18,12 @@ dayjs.extend(LocalizedFormat);
 const { WX_COMPANY_ID, WX_APP_ID, WX_APP_SECRET } =
   process.env;
 
+console.log({
+  WX_COMPANY_ID,
+  WX_APP_ID,
+  WX_APP_SECRET
+});
+
 const WEEKS = {
   1: "星期一",
   2: "星期二",
