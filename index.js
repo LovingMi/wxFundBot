@@ -65,6 +65,25 @@ const newsTemplate = (list) => {
   };
 };
 
+const markdownMsg = (list) => {
+  let markDown = "";
+  if (list && Array.isArray(list)) {
+    markDown = list
+      .map((n) => {
+        return `\n><font color=\"${n.gszzl > 0 ? "warning" : "info"}\">${
+          n.gszzl > 0 ? "+" + n.gszzl + "%" : n.gszzl + "%"
+        }</font> ${n.name}`;
+      })
+      .join("");
+  }
+  return {
+    msgtype: "markdown",
+    markdown: {
+      content: markdown,
+    },
+  };
+};
+
 //根据企业ID、应用secret 获取token
 const getToken = async ({ id, secret }) => {
   try {
@@ -182,7 +201,9 @@ const scheduleTask2 = async () => {
     let str = "";
     if (arr.length > 0) {
       const template = newsTemplate(arr);
+      const mkMsg = markdownMsg(arr);
       await wxNotify(template);
+      await wxNotify(mkMsg);
     }
   } catch (error) {
     console.error(error);
