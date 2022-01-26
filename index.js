@@ -79,7 +79,7 @@ const markdownMsg = (list) => {
   return {
     msgtype: "markdown",
     markdown: {
-      content: markdown,
+      content: markDown,
     },
   };
 };
