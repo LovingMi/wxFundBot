@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-01-21 09:57:42
+ * @LastEditTime: 2022-01-26 16:16:07
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -52,7 +52,7 @@ const newsTemplate = (list) => {
         }`,
         description: ``,
         url: fundDetailURL + n.fundcode,
-        picurl: '',
+        picurl: "",
       };
     });
   }
@@ -66,7 +66,7 @@ const newsTemplate = (list) => {
 };
 
 const markdownMsg = (list) => {
-  let markDown = "";
+  let markDown;
   if (list && Array.isArray(list)) {
     markDown = list
       .map((n) => {
