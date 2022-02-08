@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-02-08 17:29:06
+ * @LastEditTime: 2022-02-08 17:39:41
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -51,7 +51,7 @@ const weekToday = () => {
 
 // 图文消息
 const newsTemplate = (data) => {
-  const { list, upFundNum, totalFundMoney } = data
+  const { list, upFundNum, totalFundMoney } = data;
   let articles = [];
   if (list && Array.isArray(list)) {
     articles = list.map((n) => {
@@ -75,7 +75,8 @@ const newsTemplate = (data) => {
 };
 
 const markdownMsg = (data) => {
-  const { list, upFundNum, totalFundMoney } = data
+  const { list, upFundNum, totalFundMoney } = data;
+
   let markDown;
   if (list && Array.isArray(list)) {
     markDown = list
@@ -86,10 +87,16 @@ const markdownMsg = (data) => {
       })
       .join("");
   }
+  let str = `>**Fund Tips**
+             ${markDown}
+             上涨：${upFundNum}
+             下跌：${list.length - upFundNum}
+             预估：${totalFundMoney}
+             `;
   return {
     msgtype: "markdown",
     markdown: {
-      content: markDown,
+      content: str,
     },
   };
 };
@@ -222,9 +229,9 @@ const scheduleTask2 = async () => {
       const data = {
         list: arr,
         upFundNum,
-        totalFundMoney
+        totalFundMoney,
       };
-      console.log(data)
+      console.log(data);
       const template = newsTemplate(data);
       const mkMsg = markdownMsg(data);
       await wxNotify(template);
