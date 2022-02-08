@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-01-26 16:16:07
+ * @LastEditTime: 2022-02-08 17:29:06
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -20,12 +20,6 @@ dotenv.config();
 
 const { WX_COMPANY_ID, WX_APP_ID, WX_APP_SECRET } = process.env;
 
-console.log({
-  WX_COMPANY_ID,
-  WX_APP_ID,
-  WX_APP_SECRET,
-});
-
 const WEEKS = {
   1: "星期一",
   2: "星期二",
@@ -36,13 +30,28 @@ const WEEKS = {
   0: "星期日",
 };
 
+const fundObj = {
+  "005918": 11268.82,
+  161726: 4922.62,
+  161725: 7172.82,
+  "003096": 575.96,
+  "001513": 244.95,
+  "005827": 1423.95,
+  "003984": 1295.13,
+  "001875": 1457.99,
+};
+
+let upFundNum = 0;
+let totalFundMoney = 0;
+
 const weekToday = () => {
   const week = dayjs().get("days");
   return WEEKS[week];
 };
 
 // 图文消息
-const newsTemplate = (list) => {
+const newsTemplate = (data) => {
+  const { list, upFundNum, totalFundMoney } = data
   let articles = [];
   if (list && Array.isArray(list)) {
     articles = list.map((n) => {
@@ -65,7 +74,8 @@ const newsTemplate = (list) => {
   };
 };
 
-const markdownMsg = (list) => {
+const markdownMsg = (data) => {
+  const { list, upFundNum, totalFundMoney } = data
   let markDown;
   if (list && Array.isArray(list)) {
     markDown = list
@@ -200,8 +210,23 @@ const scheduleTask2 = async () => {
     console.log(arr);
     let str = "";
     if (arr.length > 0) {
-      const template = newsTemplate(arr);
-      const mkMsg = markdownMsg(arr);
+      arr.forEach((ele) => {
+        if (ele.gszzl > 0) {
+          upFundNum += 1;
+        }
+        ele.salary = parseFloat(
+          fundObj[ele.fundcode] * (ele.gsz - ele.dwjz).toFixed(2)
+        );
+        totalFundMoney += ele.salary * 1;
+      });
+      const data = {
+        list: arr,
+        upFundNum,
+        totalFundMoney
+      };
+      console.log(data)
+      const template = newsTemplate(data);
+      const mkMsg = markdownMsg(data);
       await wxNotify(template);
       await wxNotify(mkMsg);
     }
