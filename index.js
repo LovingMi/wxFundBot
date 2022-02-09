@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-02-09 10:43:14
+ * @LastEditTime: 2022-02-09 10:57:09
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -101,6 +101,39 @@ const markdownMsg = (data) => {
     msgtype: "markdown",
     markdown: {
       content: str,
+    },
+  };
+};
+
+const textcardMsg = (data) => {
+  const { list, upFundNum, totalFundMoney } = data;
+  let fundstr;
+  if (list && Array.isArray(list)) {
+    fundstr = list
+      .map((n) => {
+        return `\n${n.gszzl > 0 ? "+" + n.gszzl + "%" : n.gszzl + "%"} ${
+          n.name
+        }`;
+      })
+      .join("");
+  }
+  let description = `${fundstr}
+上涨：${upFundNum}
+下跌：${list.length - upFundNum}
+预估：${
+    totalFundMoney > 0
+      ? "+￥" + totalFundMoney.toFixed(2)
+      : "-￥" + totalFundMoney.toFixed(2)
+  }`;
+  const title = `Fund Tips`;
+
+  return {
+    msgtype: "textcard",
+    textcard: {
+      title,
+      description,
+      url: `https://api.vvhan.com/api/60s`,
+      btntxt: "详情",
     },
   };
 };
@@ -236,9 +269,10 @@ const scheduleTask2 = async () => {
         totalFundMoney,
       };
       console.log(data);
-      const template = newsTemplate(data);
+      // const template = newsTemplate(data);
+      const textMsg = textcardMsg(data);
       const mkMsg = markdownMsg(data);
-      await wxNotify(template);
+      await wxNotify(textMsg);
       await wxNotify(mkMsg);
     }
   } catch (error) {
