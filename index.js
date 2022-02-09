@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-02-09 10:40:35
+ * @LastEditTime: 2022-02-09 10:43:14
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -91,9 +91,11 @@ const markdownMsg = (data) => {
              ${markDown}
              上涨：<font color=\"warning\">${upFundNum}</font>
              下跌：<font color=\"info\">${list.length - upFundNum}</font>
-             预估：<font color=\"${
-               totalFundMoney > 0 ? "warning" : "info"
-             }\">${totalFundMoney.toFixed(2)}</font>
+             预估：<font color=\"${totalFundMoney > 0 ? "warning" : "info"}\">${
+    totalFundMoney > 0
+      ? "+￥" + totalFundMoney.toFixed(2)
+      : "-￥" + totalFundMoney.toFixed(2)
+  }</font>
              `;
   return {
     msgtype: "markdown",
