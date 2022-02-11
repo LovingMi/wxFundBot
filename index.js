@@ -94,7 +94,7 @@ const markdownMsg = (data) => {
              预估：<font color=\"${totalFundMoney > 0 ? "warning" : "info"}\">${
     totalFundMoney > 0
       ? "+￥" + totalFundMoney.toFixed(2)
-      : "-￥" + totalFundMoney.toFixed(2)
+      : "￥" + totalFundMoney.toFixed(2)
   }</font>
              `;
   return {
@@ -123,7 +123,7 @@ const textcardMsg = (data) => {
 预估：${
     totalFundMoney > 0
       ? "+￥" + totalFundMoney.toFixed(2)
-      : "-￥" + totalFundMoney.toFixed(2)
+      : "￥" + totalFundMoney.toFixed(2)
   }`;
   const title = `Fund Tips`;
 
