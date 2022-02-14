@@ -2,19 +2,21 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-02-09 10:57:09
+ * @LastEditTime: 2022-02-14 16:18:01
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
 const dayjs = require("dayjs");
-const duration = require("dayjs/plugin/duration");
-const LocalizedFormat = require("dayjs/plugin/localizedFormat");
+const utc = require('dayjs/plugin/utc')
+const timezone = require('dayjs/plugin/timezone')
+
 const fundURL = "http://fundgz.1234567.com.cn/js/";
 const fundDetailURL = "https://m.1234567.com.cn/index.html?page=jjxq&code=";
 const qyweixinUrl = "https://qyapi.weixin.qq.com";
 
-dayjs.extend(duration);
-dayjs.extend(LocalizedFormat);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Asia/Shanghai')
 
 dotenv.config();
 
@@ -287,5 +289,12 @@ const scheduleTask2 = async () => {
 // }else{
 //   console.log(week,'have a rest')
 // }
+
+const day = dayjs().day()
+console.log('what day is it today?',day)
+
+if(day === 6 || day === 0){
+  return
+}
 
 scheduleTask2();
