@@ -5,7 +5,7 @@ on:
       - main
   schedule:
     # 每天9点执行 时间格式 minute hour day month week 设置的时间是UTC 不是北京时间 需要+8
-    - cron: "45 0 * * *"
+    - cron: "39 0 * * *"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
