@@ -2,35 +2,28 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-02-14 16:18:01
+ * @LastEditTime: 2022-03-31 17:29:12
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
+const nodemailer = require("nodemailer");
 const dayjs = require("dayjs");
-const utc = require('dayjs/plugin/utc')
-const timezone = require('dayjs/plugin/timezone')
+const utc = require("dayjs/plugin/utc");
+const timezone = require("dayjs/plugin/timezone");
 
+const user = "clearhuan@qq.com";
+const pass = "eouspdhfamtybbdd";
 const fundURL = "http://fundgz.1234567.com.cn/js/";
 const fundDetailURL = "https://m.1234567.com.cn/index.html?page=jjxq&code=";
 const qyweixinUrl = "https://qyapi.weixin.qq.com";
-
+const copyRight = `<p style="margin: 0;padding: 0; text-align:center;background: #000; color: #fff;font-size:15px; line-height: 80px;">copyright© Dearhuan 2020-2022 All Right Reserved</p>`;
 dayjs.extend(utc);
 dayjs.extend(timezone);
-dayjs.tz.setDefault('Asia/Shanghai')
+dayjs.tz.setDefault("Asia/Shanghai");
 
 dotenv.config();
 
 const { WX_COMPANY_ID, WX_APP_ID, WX_APP_SECRET } = process.env;
-
-const WEEKS = {
-  1: "星期一",
-  2: "星期二",
-  3: "星期三",
-  4: "星期四",
-  5: "星期五",
-  6: "星期六",
-  0: "星期日",
-};
 
 const fundObj = {
   "005918": 11268.82,
@@ -45,36 +38,6 @@ const fundObj = {
 
 let upFundNum = 0;
 let totalFundMoney = 0;
-
-const weekToday = () => {
-  const week = dayjs().get("days");
-  return WEEKS[week];
-};
-
-// 图文消息
-const newsTemplate = (data) => {
-  const { list, upFundNum, totalFundMoney } = data;
-  let articles = [];
-  if (list && Array.isArray(list)) {
-    articles = list.map((n) => {
-      return {
-        title: `${n.name} ${n.fundcode} ${
-          n.gszzl > 0 ? "+" + n.gszzl + "%" : n.gszzl + "%"
-        }`,
-        description: ``,
-        url: fundDetailURL + n.fundcode,
-        picurl: "",
-      };
-    });
-  }
-
-  return {
-    msgtype: "news",
-    news: {
-      articles,
-    },
-  };
-};
 
 const markdownMsg = (data) => {
   const { list, upFundNum, totalFundMoney } = data;
@@ -138,6 +101,46 @@ const textcardMsg = (data) => {
       btntxt: "详情",
     },
   };
+};
+
+let transporter = nodemailer.createTransport({
+  host: "smtp.qq.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: user,
+    pass: pass,
+  },
+});
+
+const sendMail = (transporter, to, htmlData, subject) => {
+  return new Promise((resolve, reject) => {
+    let mailOptions = {
+      from: `<${user}>`,
+      to: `<${to}>`,
+      subject: subject,
+      html: htmlData,
+    };
+    transporter.sendMail(mailOptions, (error, info = {}) => {
+      if (error) {
+        console.error("邮件发送异常" + error);
+        reject(error);
+      } else {
+        console.log("邮件发送成功", info.messageId);
+        console.log("静等下一次发送");
+        resolve();
+      }
+    });
+  });
+};
+
+const randomRgbaColor = () => {
+  //随机生成RGBA颜色
+  var r = Math.floor(Math.random() * 256); //随机生成256以内r值
+  var g = Math.floor(Math.random() * 256); //随机生成256以内g值
+  var b = Math.floor(Math.random() * 256); //随机生成256以内b值
+  var alpha = Math.random(); //随机生成1以内a值
+  return `rgb(${r},${g},${b},${alpha})`; //返回rgba(r,g,b,a)格式颜色
 };
 
 //根据企业ID、应用secret 获取token
@@ -264,6 +267,17 @@ const scheduleTask2 = async () => {
           fundObj[ele.fundcode] * (ele.gsz - ele.dwjz).toFixed(2)
         );
         totalFundMoney += ele.salary * 1;
+
+        str += `<div style="display:flex;justify-content:space-between;align-items:center;">
+                <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${
+                  ele.fundcode
+                }</span><a style="color:#0089ff;text-decoration: none;" href="${
+          fundDetailURL + ele.fundcode
+        }" target="_blank">${ele.name}</a></p>
+                <p style="color:${
+                  ele.gszzl > 0 ? "red" : "green"
+                };margin-right:15px">${ele.gszzl}%</p>
+              </div>`;
       });
       const data = {
         list: arr,
@@ -276,25 +290,32 @@ const scheduleTask2 = async () => {
       const mkMsg = markdownMsg(data);
       await wxNotify(textMsg);
       await wxNotify(mkMsg);
+      let msg = `<div style="background: #fff;box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
+                  <div style="
+                  font-weight: bold;
+                  color: #fff;
+                  text-align: center;
+                  padding: 20px;
+                  background: #000;fff
+                  font-size: 20px;">基金涨跌幅统计</div>
+                  ${str}
+                  ${copyRight}
+                </div>`;
+      sendMail(
+        transporter,
+        "clearhuan@qq.com",
+        msg,
+        `【基金涨跌幅统计】By Github Actions`
+      );
     }
   } catch (error) {
     console.error(error);
   }
 };
 
-// const week = weekToday();
-// if (["星期六", "星期日"].includes(week)) {
-//   console.log(week);
-//   scheduleTask2();
-// }else{
-//   console.log(week,'have a rest')
-// }
+const day = dayjs().day();
+console.log("what day is it today?", day);
 
-const day = dayjs().day()
-console.log('what day is it today?',day)
-
-if(day === 6 || day === 0){
-  return
+if (![0, 6].includes(day)) {
+  scheduleTask2();
 }
-
-scheduleTask2();
