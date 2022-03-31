@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-03-31 17:54:08
+ * @LastEditTime: 2022-03-31 17:55:54
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -16,7 +16,7 @@ const pass = "eouspdhfamtybbdd";
 const fundURL = "http://fundgz.1234567.com.cn/js/";
 const fundDetailURL = "https://m.1234567.com.cn/index.html?page=jjxq&code=";
 const qyweixinUrl = "https://qyapi.weixin.qq.com";
-const copyRight = `<div style="margin: 0;padding: 0; text-align:center;background: #000; color: #fff;font-size:15px; line-height: 80px;">copyright© Dearhuan 2020-2022 All Right Reserved</div>`;
+const copyRight = `<p style="margin: 0;padding: 0; text-align:center;background: #000; color: #fff;font-size:15px; line-height: 80px;">copyright© Dearhuan 2020-2022 All Right Reserved</p>`;
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Shanghai");
@@ -290,15 +290,7 @@ const scheduleTask2 = async () => {
       const mkMsg = markdownMsg(data);
       await wxNotify(textMsg);
       await wxNotify(mkMsg);
-      const mStr = `<div style="display:flex;justify-content:space-between;align-items:center;">
-                     <p>上涨：<span style="color: red;">${upFundNum}</span></p>
-                     <p>下跌：<span style="color: green;">${
-                       arr.length - upFundNum
-                     }</span></p>
-                     <p>收益：<span style="color:${
-                       totalFundMoney > 0 ? "red" : "green"
-                     };>${totalFundMoney}</span></p>
-                    </div>`;
+
       let msg = `<div style="background: #fff;box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
                   <div style="
                   font-weight: bold;
@@ -308,7 +300,6 @@ const scheduleTask2 = async () => {
                   background: #000;fff
                   font-size: 20px;">基金涨跌幅统计</div>
                   ${str}
-                  ${mStr}
                   ${copyRight}
                 </div>`;
       sendMail(
