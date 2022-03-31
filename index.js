@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-03-31 17:48:31
+ * @LastEditTime: 2022-03-31 17:54:08
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -16,7 +16,7 @@ const pass = "eouspdhfamtybbdd";
 const fundURL = "http://fundgz.1234567.com.cn/js/";
 const fundDetailURL = "https://m.1234567.com.cn/index.html?page=jjxq&code=";
 const qyweixinUrl = "https://qyapi.weixin.qq.com";
-const copyRight = `<p style="margin: 0;padding: 0; text-align:center;background: #000; color: #fff;font-size:15px; line-height: 80px;">copyright© Dearhuan 2020-2022 All Right Reserved</p>`;
+const copyRight = `<div style="margin: 0;padding: 0; text-align:center;background: #000; color: #fff;font-size:15px; line-height: 80px;">copyright© Dearhuan 2020-2022 All Right Reserved</div>`;
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Shanghai");
