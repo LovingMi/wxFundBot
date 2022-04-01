@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-04-01 09:02:14
+ * @LastEditTime: 2022-04-01 09:07:31
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -298,7 +298,7 @@ const scheduleTask2 = async () => {
                       <p>
                         下跌：<span style="color: green;">${arr.length - upFundNum}</span>
                       </p>
-                      <p>预估：<span style="color: ${totalFundMoney > 0 ? "red" : "green"};">${totalFundMoney}CNY</span></p>
+                      <p>预估：<span style="color: ${totalFundMoney > 0 ? "red" : "green"};">${(totalFundMoney).toFixed(2)}CNY</span></p>
                     </div>`;
 
       let msg = `<div style="background: #fff;box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
