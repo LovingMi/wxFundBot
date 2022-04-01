@@ -301,7 +301,7 @@ const scheduleTask2 = async () => {
                       <p>预估：<span style="color: ${totalFundMoney > 0 ? "red" : "green"};">${(totalFundMoney).toFixed(2)}CNY</span></p>
                     </div>`;
 
-      let msg = `<div style="background: #fff;box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
+      let msg = `<div style="background: linear-gradient(208deg, #ac1bfd, transparent);box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
                   <div style="
                   font-weight: bold;
                   color: #fff;
