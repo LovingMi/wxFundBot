@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-03-31 17:55:54
+ * @LastEditTime: 2022-04-01 09:02:14
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -291,6 +291,16 @@ const scheduleTask2 = async () => {
       await wxNotify(textMsg);
       await wxNotify(mkMsg);
 
+      const mStr = `<div style="display: flex;justify-content: space-evenly;align-items: center;">
+                      <p>
+                        上涨：<span style="color: red;">${upFundNum}</span>
+                      </p>
+                      <p>
+                        下跌：<span style="color: green;">${arr.length - upFundNum}</span>
+                      </p>
+                      <p>预估：<span style="color: ${totalFundMoney > 0 ? "red" : "green"};">${totalFundMoney}CNY</span></p>
+                    </div>`;
+
       let msg = `<div style="background: #fff;box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
                   <div style="
                   font-weight: bold;
@@ -300,6 +310,7 @@ const scheduleTask2 = async () => {
                   background: #000;fff
                   font-size: 20px;">基金涨跌幅统计</div>
                   ${str}
+                  ${mStr}
                   ${copyRight}
                 </div>`;
       sendMail(
