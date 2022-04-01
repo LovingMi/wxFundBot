@@ -301,14 +301,14 @@ const scheduleTask2 = async () => {
                       <p>预估：<span style="color: ${totalFundMoney > 0 ? "red" : "green"};">${(totalFundMoney).toFixed(2)}CNY</span></p>
                     </div>`;
 
-      let msg = `<div style="background: linear-gradient(208deg, #ac1bfd, transparent);box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
+      let msg = `<div style="background: linear-gradient(126deg, #578fb8, transparent);box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
                   <div style="
                   font-weight: bold;
                   color: #fff;
                   text-align: center;
                   padding: 20px;
                   background: #000;fff
-                  font-size: 20px;">基金涨跌幅统计</div>
+                  font-size: 20px;">Fund Tips</div>
                   ${str}
                   ${mStr}
                   ${copyRight}
@@ -317,7 +317,7 @@ const scheduleTask2 = async () => {
         transporter,
         "clearhuan@qq.com",
         msg,
-        `【基金涨跌幅统计】By Github Actions`
+        `【Fund Tips】By Github Actions`
       );
     }
   } catch (error) {
