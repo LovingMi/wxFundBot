@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-04-01 09:07:31
+ * @LastEditTime: 2022-04-02 10:02:37
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -16,7 +16,7 @@ const pass = "eouspdhfamtybbdd";
 const fundURL = "http://fundgz.1234567.com.cn/js/";
 const fundDetailURL = "https://m.1234567.com.cn/index.html?page=jjxq&code=";
 const qyweixinUrl = "https://qyapi.weixin.qq.com";
-const copyRight = `<p style="margin: 0;padding: 0; text-align:center;background: #000; color: #fff;font-size:15px; line-height: 80px;">copyright© Dearhuan 2020-2022 All Right Reserved</p>`;
+const copyRight = `<p style="margin: 0;padding: 0; text-align:center;background: #ee55aa; color: #fff;font-size:15px; line-height: 80px;">copyright© Dearhuan 2020-2022 All Right Reserved</p>`;
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Shanghai");
@@ -296,18 +296,21 @@ const scheduleTask2 = async () => {
                         上涨：<span style="color: red;">${upFundNum}</span>
                       </p>
                       <p>
-                        下跌：<span style="color: green;">${arr.length - upFundNum}</span>
+                        下跌：<span style="color: green;">${
+                          arr.length - upFundNum
+                        }</span>
                       </p>
-                      <p>预估：<span style="color: ${totalFundMoney > 0 ? "red" : "green"};">${(totalFundMoney).toFixed(2)}CNY</span></p>
+                      <p>预估：<span style="color: ${
+                        totalFundMoney > 0 ? "red" : "green"
+                      };">${totalFundMoney.toFixed(2)}CNY</span></p>
                     </div>`;
 
-      let msg = `<div style="background: linear-gradient(126deg, #578fb8, transparent);box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
+      let msg = `<div style="background: linear-gradient(180deg, #ee55aa, transparent);box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
                   <div style="
                   font-weight: bold;
                   color: #fff;
                   text-align: center;
                   padding: 20px;
-                  background: #000;fff
                   font-size: 20px;">Fund Tips</div>
                   ${str}
                   ${mStr}
