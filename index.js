@@ -331,6 +331,6 @@ const scheduleTask2 = async () => {
 const day = dayjs().day();
 console.log("what day is it today?", day);
 
-if (![0, 6].includes(day)) {
+// if (![0, 6].includes(day)) {
   scheduleTask2();
-}
+// }
