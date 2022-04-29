@@ -1,8 +1,13 @@
 name: wxFundBot7
 on:
   workflow_dispatch:
-    branches:
-      - main
+    #branches:
+    #  - main
+    inputs:
+      tags:
+        description: 'Test scenario tags'
+        required: false 
+        type: boolean 
   schedule:
     # 每天9点执行 时间格式 minute hour day month week 设置的时间是UTC 不是北京时间 需要+8
     - cron: "19 0 * * *"
