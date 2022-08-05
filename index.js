@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-04-02 10:08:07
+ * @LastEditTime: 2022-08-05 09:08:31
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -26,6 +26,8 @@ dotenv.config();
 const { WX_COMPANY_ID, WX_APP_ID, WX_APP_SECRET } = process.env;
 
 const fundObj = {
+  006543: 58683.31,
+  006515: 20400.84,
   "005918": 11268.82,
   161726: 4922.62,
   161725: 7172.82,
