@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-08-05 09:08:31
+ * @LastEditTime: 2022-08-05 09:21:25
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -217,6 +217,18 @@ const scheduleTask2 = async () => {
     console.log("启动任务:" + new Date());
     var arr = [];
 
+    let res01 = await getFundInfo("006543");
+    console.log(res01);
+    let data01 = JSON.parse(
+      res01.substring(res01.indexOf("(") + 1, res01.lastIndexOf(")"))
+    );
+    arr.push(data01);
+    let res02 = await getFundInfo("006515");
+    console.log(res02);
+    let data02 = JSON.parse(
+      res02.substring(res02.indexOf("(") + 1, res02.lastIndexOf(")"))
+    );
+    arr.push(data02);
     let res1 = await getFundInfo("005918");
     console.log(res1);
     let data1 = JSON.parse(
