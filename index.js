@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-08-05 09:26:29
+ * @LastEditTime: 2022-08-05 09:34:34
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -26,8 +26,6 @@ dotenv.config();
 const { WX_COMPANY_ID, WX_APP_ID, WX_APP_SECRET } = process.env;
 
 const fundObj = {
-  006543: 58683.31,
-  006515: 20400.84,
   "005918": 11268.82,
   161726: 4922.62,
   161725: 7172.82,
@@ -217,18 +215,6 @@ const scheduleTask2 = async () => {
     console.log("启动任务:" + new Date());
     var arr = [];
 
-    let res01 = await getFundInfo("006543");
-    console.log(res01);
-    let data01 = JSON.parse(
-      res01.substring(res01.indexOf("(") + 1, res01.lastIndexOf(")"))
-    );
-    arr.push(data01);
-    // let res02 = await getFundInfo("006515");
-    // console.log(res02);
-    // let data02 = JSON.parse(
-    //   res02.substring(res02.indexOf("(") + 1, res02.lastIndexOf(")"))
-    // );
-    // arr.push(data02);
     let res1 = await getFundInfo("005918");
     console.log(res1);
     let data1 = JSON.parse(
