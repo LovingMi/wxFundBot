@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2024-07-29 11:47:41
+ * @LastEditTime: 2024-07-29 14:32:25
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -217,7 +217,6 @@ const getLargeMarketInfo = () => {
     axios.get(largeMarketURL, {
       params: params
     }).then(res => {
-      console.log(res)
       if (res.data) {
         resolve(res.data.data.diff)
       } else {
@@ -235,7 +234,6 @@ const scheduleTask2 = async () => {
     var arr = [];
 
     let res1 = await getFundInfo("005918");
-    console.log(res1);
     let data1 = JSON.parse(
       res1.substring(res1.indexOf("(") + 1, res1.lastIndexOf(")"))
     );
@@ -275,7 +273,6 @@ const scheduleTask2 = async () => {
       res8.substring(res8.indexOf("(") + 1, res8.lastIndexOf(")"))
     );
     arr.push(data8);
-    console.log(arr);
 
     const trendList = await getLargeMarketInfo()
     console.log({ trendList })
@@ -283,14 +280,10 @@ const scheduleTask2 = async () => {
     if (trendList.length > 0) {
       trendList.forEach(ele => {
         trendStr += `<div style="display:flex;justify-content:space-between;align-items:center;">
-                <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
-                  <span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${ele.f14}</span>
-                  <span style="color:#0089ff;>${ele.f2}</span>
-                </p>
-                <p style="color:${ele.f3 > 0 ? "red" : "green"};margin-right:15px">
-                  <span>${ele.f4}</span>
-                  <span>${ele.f3}%</span>
-                </p>
+                <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${ele.f14
+          }</span><a style="color:#0089ff;text-decoration: none;">${ele.f2}</a></p>
+                <p style="color:${ele.f3 > 0 ? "red" : "green"
+          };margin-right:15px"><span>${ele.f4 > 0 ? `+${ele.f4}` : `-${ele.f4}`} </span><span>${ele.f3 > 0 ? `+${ele.f3}` : `-${ele.f3}`}%</span></p>
               </div>`
       })
     }
