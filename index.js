@@ -1,8 +1,8 @@
-/*
+s/*
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2022-08-05 09:34:34
+ * @LastEditTime: 2024-07-29 11:03:04
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -15,6 +15,7 @@ const user = "clearhuan@qq.com";
 const pass = "eouspdhfamtybbdd";
 const fundURL = "http://fundgz.1234567.com.cn/js/";
 const fundDetailURL = "https://m.1234567.com.cn/index.html?page=jjxq&code=";
+const largeMarketURL = "https://push2.eastmoney.com/api/qt/ulist.np/get"
 const qyweixinUrl = "https://qyapi.weixin.qq.com";
 const copyRight = `<p style="margin: 0;padding: 0; text-align:center; color: #ee55aa;font-size:15px; line-height: 80px;">copyright© Dearhuan 2020-2022 All Right Reserved</p>`;
 dayjs.extend(utc);
@@ -46,9 +47,8 @@ const markdownMsg = (data) => {
   if (list && Array.isArray(list)) {
     markDown = list
       .map((n) => {
-        return `\n><font color=\"${n.gszzl > 0 ? "warning" : "info"}\">${
-          n.gszzl > 0 ? "+" + n.gszzl + "%" : n.gszzl + "%"
-        }</font> ${n.name}`;
+        return `\n><font color=\"${n.gszzl > 0 ? "warning" : "info"}\">${n.gszzl > 0 ? "+" + n.gszzl + "%" : n.gszzl + "%"
+          }</font> ${n.name}`;
       })
       .join("");
   }
@@ -56,11 +56,10 @@ const markdownMsg = (data) => {
              ${markDown}
              上涨：<font color=\"warning\">${upFundNum}</font>
              下跌：<font color=\"info\">${list.length - upFundNum}</font>
-             预估：<font color=\"${totalFundMoney > 0 ? "warning" : "info"}\">${
-    totalFundMoney > 0
+             预估：<font color=\"${totalFundMoney > 0 ? "warning" : "info"}\">${totalFundMoney > 0
       ? "+￥" + totalFundMoney.toFixed(2)
       : "￥" + totalFundMoney.toFixed(2)
-  }</font>
+    }</font>
              `;
   return {
     msgtype: "markdown",
@@ -76,20 +75,18 @@ const textcardMsg = (data) => {
   if (list && Array.isArray(list)) {
     fundstr = list
       .map((n) => {
-        return `\n${n.gszzl > 0 ? "+" + n.gszzl + "%" : n.gszzl + "%"} ${
-          n.name
-        }`;
+        return `\n${n.gszzl > 0 ? "+" + n.gszzl + "%" : n.gszzl + "%"} ${n.name
+          }`;
       })
       .join("");
   }
   let description = `${fundstr}
 上涨：${upFundNum}
 下跌：${list.length - upFundNum}
-预估：${
-    totalFundMoney > 0
+预估：${totalFundMoney > 0
       ? "+￥" + totalFundMoney.toFixed(2)
       : "￥" + totalFundMoney.toFixed(2)
-  }`;
+    }`;
   const title = `Fund Tips`;
 
   return {
@@ -210,6 +207,27 @@ const getFundInfo = (fundCode) => {
   });
 };
 
+const getLargeMarketInfo = () => {
+  const params = {
+    fltt: 2,
+    fields: 'f2,f3,f4,f12,f14',
+    secids: '1.000001,0.399001,0.399006,1.000300,0.399005'
+  }
+  return new Promise((resolve, reject) => {
+    axios.get(largeMarketURL, {
+      params: params
+    }).then(res => {
+      if (res.data && res.data.diff.length > 0) {
+        resolve(res.data.diff)
+      } else {
+        resolve([])
+      }
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
 const scheduleTask2 = async () => {
   try {
     console.log("启动任务:" + new Date());
@@ -257,6 +275,25 @@ const scheduleTask2 = async () => {
     );
     arr.push(data8);
     console.log(arr);
+
+    const trendList = await getLargeMarketInfo()
+    console.log({trendList})
+    let trendStr = ''
+    if (trendList.length > 0) {
+      trendList.forEach(ele => {
+        trendStr += `<div style="display:flex;justify-content:space-between;align-items:center;">
+                <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                  <span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${ele.f14}</span>
+                  <span style="color:#0089ff;>${ele.f2}</span>
+                </p>
+                <p style="color:${ele.f3 > 0 ? "red" : "green"};margin-right:15px">
+                  <span>${ele.f4}</span>
+                  <span>${ele.f3}%</span>
+                </p>
+              </div>`
+      })
+    }
+
     let str = "";
     if (arr.length > 0) {
       arr.forEach((ele) => {
@@ -269,14 +306,11 @@ const scheduleTask2 = async () => {
         totalFundMoney += ele.salary * 1;
 
         str += `<div style="display:flex;justify-content:space-between;align-items:center;">
-                <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${
-                  ele.fundcode
-                }</span><a style="color:#0089ff;text-decoration: none;" href="${
-          fundDetailURL + ele.fundcode
-        }" target="_blank">${ele.name}</a></p>
-                <p style="color:${
-                  ele.gszzl > 0 ? "red" : "green"
-                };margin-right:15px">${ele.gszzl}%</p>
+                <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${ele.fundcode
+          }</span><a style="color:#0089ff;text-decoration: none;" href="${fundDetailURL + ele.fundcode
+          }" target="_blank">${ele.name}</a></p>
+                <p style="color:${ele.gszzl > 0 ? "red" : "green"
+          };margin-right:15px">${ele.gszzl}%</p>
               </div>`;
       });
       const data = {
@@ -296,13 +330,11 @@ const scheduleTask2 = async () => {
                         上涨：<span style="color: red;">${upFundNum}</span>
                       </p>
                       <p>
-                        下跌：<span style="color: green;">${
-                          arr.length - upFundNum
-                        }</span>
+                        下跌：<span style="color: green;">${arr.length - upFundNum
+        }</span>
                       </p>
-                      <p>预估：<span style="color: ${
-                        totalFundMoney > 0 ? "red" : "green"
-                      };">${totalFundMoney.toFixed(2)}CNY</span></p>
+                      <p>预估：<span style="color: ${totalFundMoney > 0 ? "red" : "green"
+        };">${totalFundMoney.toFixed(2)}CNY</span></p>
                     </div>`;
 
       let msg = `<div style="background: linear-gradient(180deg, #ee55aa, transparent);box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
@@ -312,6 +344,7 @@ const scheduleTask2 = async () => {
                   text-align: center;
                   padding: 20px;
                   font-size: 20px;">Fund Tips</div>
+                  ${trendStr}
                   ${str}
                   ${mStr}
                   ${copyRight}
