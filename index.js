@@ -281,9 +281,9 @@ const scheduleTask2 = async () => {
       trendList.forEach(ele => {
         trendStr += `<div style="display:flex;justify-content:space-between;align-items:center;">
                 <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${ele.f12
-          }</span><a style="color:#0089ff;text-decoration: none;">${ele.f14}</a></p>
+          }</span><a style="color:#0089ff;text-decoration: none;">${ele.f14} ${ele.f2}</a></p>
                 <p style="color:${ele.f3 > 0 ? "red" : "green"
-          };margin-right:15px"><span>${ele.f2} ${ele.f4 > 0 ? `+${ele.f4}` : `-${ele.f4}`} </span><span>${ele.f3 > 0 ? `+${ele.f3}` : `-${ele.f3}`}%</span></p>
+          };margin-right:15px"><span>${ele.f4 > 0 ? `+${ele.f4}` : `-${ele.f4}`} </span><span>${ele.f3 > 0 ? `+${ele.f3}` : `-${ele.f3}`}%</span></p>
               </div>`
       })
     }
