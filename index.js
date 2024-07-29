@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2024-07-29 11:35:53
+ * @LastEditTime: 2024-07-29 11:47:41
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -219,7 +219,7 @@ const getLargeMarketInfo = () => {
     }).then(res => {
       console.log(res)
       if (res.data) {
-        resolve(res.data.diff)
+        resolve(res.data.data.diff)
       } else {
         resolve([])
       }
