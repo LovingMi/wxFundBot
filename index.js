@@ -217,7 +217,8 @@ const getLargeMarketInfo = () => {
     axios.get(largeMarketURL, {
       params: params
     }).then(res => {
-      if (res.data && res.data.diff.length > 0) {
+      console.log(res)
+      if (res.data) {
         resolve(res.data.diff)
       } else {
         resolve([])
