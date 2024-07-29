@@ -1,8 +1,8 @@
-s/*
+/*
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2024-07-29 11:03:04
+ * @LastEditTime: 2024-07-29 11:35:53
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -277,7 +277,7 @@ const scheduleTask2 = async () => {
     console.log(arr);
 
     const trendList = await getLargeMarketInfo()
-    console.log({trendList})
+    console.log({ trendList })
     let trendStr = ''
     if (trendList.length > 0) {
       trendList.forEach(ele => {
