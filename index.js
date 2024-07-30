@@ -331,7 +331,7 @@ const scheduleTask2 = async () => {
         };">${totalFundMoney.toFixed(2)}CNY</span></p>
                     </div>`;
 
-      let msg = `<div style="background: linear-gradient(90deg, #124998, transparent);box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
+      let msg = `<div style="background: linear-gradient(90deg, #124998, transparent);box-shadow: ${randomRgbaColor()} 0px 0px 10px;border-radius: 40px;">
                   <div style="
                   font-weight: bold;
                   color: #fff;
