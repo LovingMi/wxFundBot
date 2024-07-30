@@ -279,7 +279,9 @@ const scheduleTask2 = async () => {
     let trendStr = ''
     if (trendList.length > 0) {
       trendList.forEach(ele => {
-        trendStr += `<div style="display:flex;justify-content:space-between;align-items:center;">
+        trendStr += `<div style="display:flex;justify-content:space-between;align-items:center;
+        background-color: rgba(255, 255, 255, 0.1);margin:10px;border-radius:10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);font-size: 20px;font-weight: 700;">
                 <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${ele.f12
           }</span><a style="color:#00c3ff;text-decoration: none;">${ele.f14} ${ele.f2}</a></p>
                 <p style="color:${ele.f3 > 0 ? "#ff2525" : "#37e91a"
@@ -299,7 +301,9 @@ const scheduleTask2 = async () => {
         );
         totalFundMoney += ele.salary * 1;
 
-        str += `<div style="display:flex;justify-content:space-between;align-items:center;">
+        str += `<div style="display:flex;justify-content:space-between;align-items:center;
+        background-color: rgba(255, 255, 255, 0.1);margin:10px;border-radius:10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);font-size: 20px;font-weight: 700;">
                 <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${ele.fundcode
           }</span><a style="color:#00c3ff;text-decoration: none;" href="${fundDetailURL + ele.fundcode
           }" target="_blank">${ele.name}</a></p>
