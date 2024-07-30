@@ -2,7 +2,7 @@
  * @Descripttion:
  * @Author: Hehuan
  * @Date: 2021-06-09 17:07:27
- * @LastEditTime: 2024-07-29 14:35:05
+ * @LastEditTime: 2024-07-30 10:00:26
  */
 const axios = require("axios");
 const dotenv = require("dotenv");
@@ -281,8 +281,8 @@ const scheduleTask2 = async () => {
       trendList.forEach(ele => {
         trendStr += `<div style="display:flex;justify-content:space-between;align-items:center;">
                 <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${ele.f12
-          }</span><a style="color:#0089ff;text-decoration: none;">${ele.f14} ${ele.f2}</a></p>
-                <p style="color:${ele.f3 > 0 ? "red" : "green"
+          }</span><a style="color:#00c3ff;text-decoration: none;">${ele.f14} ${ele.f2}</a></p>
+                <p style="color:${ele.f3 > 0 ? "#ff2525" : "#37e91a"
           };margin-right:15px"><span>${ele.f4 > 0 ? `+${ele.f4}` : `-${ele.f4}`} </span><span>${ele.f3 > 0 ? `+${ele.f3}` : `-${ele.f3}`}%</span></p>
               </div>`
       })
@@ -301,9 +301,9 @@ const scheduleTask2 = async () => {
 
         str += `<div style="display:flex;justify-content:space-between;align-items:center;">
                 <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${ele.fundcode
-          }</span><a style="color:#0089ff;text-decoration: none;" href="${fundDetailURL + ele.fundcode
+          }</span><a style="color:#00c3ff;text-decoration: none;" href="${fundDetailURL + ele.fundcode
           }" target="_blank">${ele.name}</a></p>
-                <p style="color:${ele.gszzl > 0 ? "red" : "green"
+                <p style="color:${ele.gszzl > 0 ? "#ff2525" : "#37e91a"
           };margin-right:15px">${ele.gszzl}%</p>
               </div>`;
       });
@@ -321,17 +321,17 @@ const scheduleTask2 = async () => {
 
       const mStr = `<div style="display: flex;justify-content: space-evenly;align-items: center;">
                       <p>
-                        上涨：<span style="color: red;">${upFundNum}</span>
+                        上涨：<span style="color: #ff2525;">${upFundNum}</span>
                       </p>
                       <p>
-                        下跌：<span style="color: green;">${arr.length - upFundNum
+                        下跌：<span style="color: #37e91a;">${arr.length - upFundNum
         }</span>
                       </p>
-                      <p>预估：<span style="color: ${totalFundMoney > 0 ? "red" : "green"
+                      <p>预估：<span style="color: ${totalFundMoney > 0 ? "#ff2525" : "#37e91a"
         };">${totalFundMoney.toFixed(2)}CNY</span></p>
                     </div>`;
 
-      let msg = `<div style="background: linear-gradient(180deg, #ee55aa, transparent);box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
+      let msg = `<div style="background: linear-gradient(90deg, #124998, transparent);box-shadow: ${randomRgbaColor()} 0px 0px 10px;">
                   <div style="
                   font-weight: bold;
                   color: #fff;
