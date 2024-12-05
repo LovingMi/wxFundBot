@@ -5,37 +5,31 @@
  * @LastEditTime: 2024-07-31 11:37:52
  */
 const axios = require("axios");
-const dotenv = require("dotenv");
-const nodemailer = require("nodemailer");
-const dayjs = require("dayjs");
-const utc = require("dayjs/plugin/utc");
-const timezone = require("dayjs/plugin/timezone");
+const util = require('./util');
+const CONSTANT = require('./constant');
 
-const user = "clearhuan@qq.com";
-const pass = "eouspdhfamtybbdd";
-const fundURL = "http://fundgz.1234567.com.cn/js/";
-const fundDetailURL = "https://m.1234567.com.cn/index.html?page=jjxq&code=";
-const largeMarketURL = "https://push2.eastmoney.com/api/qt/ulist.np/get"
-const qyweixinUrl = "https://qyapi.weixin.qq.com";
-const copyRight = `<p style="margin: 0;padding: 0; text-align:center; color: #ee55aa;font-size:15px; line-height: 80px;">copyright© Dearhuan 2020-2022 All Right Reserved</p>`;
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault("Asia/Shanghai");
+const {
+  USER,
+  FundURL,
+  FundDetailURL,
+  LargeMarketURL,
+  QyWeixinUrl,
+  CopyRight,
+  FundObj,
+  Day,
+  ProcessEnv  
+} = CONSTANT;
 
-dotenv.config();
+const {
+  WX_COMPANY_ID,
+  WX_APP_ID,
+  WX_APP_SECRET
+} = ProcessEnv;
 
-const { WX_COMPANY_ID, WX_APP_ID, WX_APP_SECRET } = process.env;
-
-const fundObj = {
-  "005918": 11268.82,
-  161726: 4922.62,
-  161725: 7172.82,
-  "003096": 575.96,
-  "001513": 244.95,
-  "005827": 1423.95,
-  "003984": 1295.13,
-  "001875": 1457.99,
-};
+const {
+  sendMail,
+  randomRgbaColor
+} = util;
 
 let upFundNum = 0;
 let totalFundMoney = 0;
@@ -100,51 +94,11 @@ const textcardMsg = (data) => {
   };
 };
 
-let transporter = nodemailer.createTransport({
-  host: "smtp.qq.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: user,
-    pass: pass,
-  },
-});
-
-const sendMail = (transporter, to, htmlData, subject) => {
-  return new Promise((resolve, reject) => {
-    let mailOptions = {
-      from: `<${user}>`,
-      to: `<${to}>`,
-      subject: subject,
-      html: htmlData,
-    };
-    transporter.sendMail(mailOptions, (error, info = {}) => {
-      if (error) {
-        console.error("邮件发送异常" + error);
-        reject(error);
-      } else {
-        console.log("邮件发送成功", info.messageId);
-        console.log("静等下一次发送");
-        resolve();
-      }
-    });
-  });
-};
-
-const randomRgbaColor = () => {
-  //随机生成RGBA颜色
-  var r = Math.floor(Math.random() * 256); //随机生成256以内r值
-  var g = Math.floor(Math.random() * 256); //随机生成256以内g值
-  var b = Math.floor(Math.random() * 256); //随机生成256以内b值
-  var alpha = Math.random(); //随机生成1以内a值
-  return `rgb(${r},${g},${b},${alpha})`; //返回rgba(r,g,b,a)格式颜色
-};
-
 //根据企业ID、应用secret 获取token
 const getToken = async ({ id, secret }) => {
   try {
     const response = await axios({
-      url: `${qyweixinUrl}/cgi-bin/gettoken?corpid=${id}&corpsecret=${secret}`,
+      url: `${QyWeixinUrl}/cgi-bin/gettoken?corpid=${id}&corpsecret=${secret}`,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -160,7 +114,7 @@ const getToken = async ({ id, secret }) => {
 //发送消息通知到企业微信
 const postMsg = async (accessToken, config) => {
   const response = await axios({
-    url: `${qyweixinUrl}/cgi-bin/message/send?access_token=${accessToken}`,
+    url: `${QyWeixinUrl}/cgi-bin/message/send?access_token=${accessToken}`,
     method: "POST",
     data: {
       touser: config.touser || "@all",
@@ -197,7 +151,7 @@ const wxNotify = async (config) => {
 const getFundInfo = (fundCode) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${fundURL}${fundCode}.js`)
+      .get(`${FundURL}${fundCode}.js`)
       .then((res) => {
         res.data ? resolve(res.data) : reject("error");
       })
@@ -214,7 +168,7 @@ const getLargeMarketInfo = () => {
     secids: '1.000001,0.399001,0.399006,1.000300,0.399005'
   }
   return new Promise((resolve, reject) => {
-    axios.get(largeMarketURL, {
+    axios.get(LargeMarketURL, {
       params: params
     }).then(res => {
       if (res.data) {
@@ -295,13 +249,13 @@ const scheduleTask2 = async () => {
           upFundNum += 1;
         }
         ele.salary = parseFloat(
-          fundObj[ele.fundcode] * (ele.gsz - ele.dwjz).toFixed(2)
+          FundObj[ele.fundcode] * (ele.gsz - ele.dwjz).toFixed(2)
         );
         totalFundMoney += ele.salary * 1;
 
         str += `<div style="display:flex;justify-content:space-between;align-items:center;">
                 <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${ele.fundcode
-          }</span><a style="color:#00c3ff;text-decoration: none;" href="${fundDetailURL + ele.fundcode
+          }</span><a style="color:#00c3ff;text-decoration: none;" href="${FundDetailURL + ele.fundcode
           }" target="_blank">${ele.name}</a></p>
                 <p style="color:${ele.gszzl > 0 ? "#ff2525" : "#37e91a"
           };margin-right:15px">${ele.gszzl}%</p>
@@ -341,11 +295,10 @@ const scheduleTask2 = async () => {
                   ${trendStr}
                   ${str}
                   ${mStr}
-                  ${copyRight}
+                  ${CopyRight}
                 </div>`;
       sendMail(
-        transporter,
-        "clearhuan@qq.com",
+        USER,
         msg,
         `【Fund Tips】By Github Actions`
       );
@@ -355,9 +308,6 @@ const scheduleTask2 = async () => {
   }
 };
 
-const day = dayjs().day();
-console.log("what day is it today?", day);
-
-if (![0, 6].includes(day)) {
+if (![0, 6].includes(Day)) {
   scheduleTask2();
 }
