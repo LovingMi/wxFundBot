@@ -1,4 +1,4 @@
-name: wxFundBot2
+name: wxFundBot10
 on:
   workflow_dispatch:
     #branches:
