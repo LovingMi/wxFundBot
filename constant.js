@@ -26,9 +26,105 @@ const FundObj = {
   "003984": 1295.13,
   "001875": 1457.99,
 };
+// 25年节假日
+const WeekDays = [
+  {
+    "date": "2025-01-01",
+    "name": "元旦"
+  },
+  {
+    "date": "2025-01-29",
+    "name": "春节"
+  },
+  {
+    "date": "2025-01-30",
+    "name": "春节"
+  },
+  {
+    "date": "2025-01-31",
+    "name": "春节"
+  },
+  {
+    "date": "2025-02-01",
+    "name": "春节"
+  },
+  {
+    "date": "2025-02-02",
+    "name": "春节"
+  },
+  {
+    "date": "2025-02-03",
+    "name": "春节"
+  },
+  {
+    "date": "2025-02-04",
+    "name": "春节"
+  },
+  {
+    "date": "2025-04-04",
+    "name": "清明节"
+  },
+  {
+    "date": "2025-05-01",
+    "name": "劳动节"
+  },
+  {
+    "date": "2025-05-02",
+    "name": "劳动节"
+  },
+  {
+    "date": "2025-05-03",
+    "name": "劳动节"
+  },
+  {
+    "date": "2025-05-04",
+    "name": "劳动节"
+  },
+  {
+    "date": "2025-05-05",
+    "name": "劳动节"
+  },
+  {
+    "date": "2025-06-02",
+    "name": "端午节"
+  },
+  {
+    "date": "2025-10-01",
+    "name": "国庆"
+  },
+  {
+    "date": "2025-10-02",
+    "name": "国庆"
+  },
+  {
+    "date": "2025-10-03",
+    "name": "国庆"
+  },
+  {
+    "date": "2025-10-04",
+    "name": "国庆"
+  },
+  {
+    "date": "2025-10-05",
+    "name": "国庆"
+  },
+  {
+    "date": "2025-10-06",
+    "name": "国庆"
+  },
+  {
+    "date": "2025-10-07",
+    "name": "国庆"
+  },
+  {
+    "date": "2025-10-08",
+    "name": "国庆"
+  }
+]
 
 module.exports = {
   Day: dayjs().day(),
+  CurrentDate: dayjs().format('YYYY-MM-DD'),
   ProcessEnv: process.env,
   USER,
   PASS,
@@ -37,5 +133,6 @@ module.exports = {
   FundObj,
   LargeMarketURL,
   QyWeixinUrl,
-  CopyRight
+  CopyRight,
+  WeekDays
 }

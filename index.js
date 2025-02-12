@@ -18,7 +18,9 @@ const {
   CopyRight,
   FundObj,
   Day,
-  ProcessEnv  
+  CurrentDate,
+  ProcessEnv,
+  WeekDays  
 } = CONSTANT;
 
 const {
@@ -309,6 +311,10 @@ const scheduleTask2 = async () => {
   }
 };
 
-if (![0, 6].includes(Day)) {
-  scheduleTask2();
-}
+const isWeekend = [0, 6].includes(Day);
+
+const isHoilday = WeekDays.some(item => {
+  return item.date == CurrentDate
+})
+
+!isWeekend && !isHoilday && scheduleTask2();
