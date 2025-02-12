@@ -315,6 +315,8 @@ const isWeekend = [0, 6].includes(Day);
 
 const isHoilday = WeekDays.some(item => {
   return item.date == CurrentDate
-})
+});
+
+console.log(Day, CurrentDate);
 
 !isWeekend && !isHoilday && scheduleTask2();
