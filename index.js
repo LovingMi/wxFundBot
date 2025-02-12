@@ -232,7 +232,6 @@ const scheduleTask2 = async () => {
     arr.push(data8);
 
     const trendList = await getLargeMarketInfo()
-    console.log({ trendList })
     let trendStr = ''
     if (trendList.length > 0) {
       trendList.forEach(ele => {
@@ -269,7 +268,6 @@ const scheduleTask2 = async () => {
         upFundNum,
         totalFundMoney,
       };
-      console.log(data);
       // const template = newsTemplate(data);
       const textMsg = textcardMsg(data);
       const mkMsg = markdownMsg(data);
@@ -317,6 +315,6 @@ const isHoilday = WeekDays.some(item => {
   return item.date == CurrentDate
 });
 
-console.log(Day, CurrentDate);
+console.log(Day, isWeekend, CurrentDate, isHoilday);
 
 !isWeekend && !isHoilday && scheduleTask2();
