@@ -8,7 +8,7 @@ on:
         required: false 
         type: boolean 
   schedule:
-    - cron: '30 1 * * *'  # 每天凌晨 2 点运行
+    - cron: '30 1 */2 * *'  # 每隔一天运行
 
 jobs:
   update-readme:
