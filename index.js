@@ -232,19 +232,7 @@ const scheduleTask2 = async () => {
     arr.push(data8);
 
     const trendList = await getLargeMarketInfo()
-    let trendStr = ''
-    if (trendList.length > 0) {
-      trendList.forEach(ele => {
-        trendStr += `<div style="display:flex;justify-content:space-between;align-items:center;">
-                <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${ele.f12
-          }</span><a style="color:#00c3ff;text-decoration: none;">${ele.f14} ${ele.f2}</a></p>
-                <p style="color:${ele.f3 > 0 ? "#ff2525" : "#37e91a"
-          };margin-right:15px"><span>${ele.f4 > 0 ? `+${ele.f4}` : `${ele.f4}`} </span><span>${ele.f3 > 0 ? `+${ele.f3}` : `${ele.f3}`}%</span></p>
-              </div>`
-      })
-    }
 
-    let str = "";
     if (arr.length > 0) {
       arr.forEach((ele) => {
         if (ele.gszzl > 0) {
@@ -254,50 +242,16 @@ const scheduleTask2 = async () => {
           FundObj[ele.fundcode] * (ele.gsz - ele.dwjz).toFixed(2)
         );
         totalFundMoney += ele.salary * 1;
-
-        str += `<div style="display:flex;justify-content:space-between;align-items:center;">
-                <p style="width:330px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="margin:0 15px;font-size:16px;font-weight:700;color:#f26d5f">${ele.fundcode
-          }</span><a style="color:#00c3ff;text-decoration: none;" href="${FundDetailURL + ele.fundcode
-          }" target="_blank">${ele.name}</a></p>
-                <p style="color:${ele.gszzl > 0 ? "#ff2525" : "#37e91a"
-          };margin-right:15px">${ele.gszzl}%</p>
-              </div>`;
       });
       const data = {
         list: arr,
         upFundNum,
         totalFundMoney,
       };
-      // const template = newsTemplate(data);
       const textMsg = textcardMsg(data);
       const mkMsg = markdownMsg(data);
       await wxNotify(textMsg);
       await wxNotify(mkMsg);
-
-      const mStr = `<div style="display: flex;justify-content: space-evenly;align-items: center;">
-                      <p>
-                        上涨：<span style="color: #ff2525;">${upFundNum}</span>
-                      </p>
-                      <p>
-                        下跌：<span style="color: #37e91a;">${arr.length - upFundNum
-        }</span>
-                      </p>
-                      <p>预估：<span style="color: ${totalFundMoney > 0 ? "#ff2525" : "#37e91a"
-        };">${totalFundMoney.toFixed(2)}CNY</span></p>
-                    </div>`;
-
-      let msg = `<div style="background: linear-gradient(90deg, #124998, transparent);box-shadow: ${randomRgbaColor()} 0px 0px 10px;border-radius: 40px;">
-                  <div style="
-                  font-weight: bold;
-                  color: #fff;
-                  text-align: center;
-                  padding: 20px;
-                  font-size: 20px;">Fund Tips</div>
-                  ${trendStr}
-                  ${str}
-                  ${mStr}
-                  ${CopyRight}
-                </div>`;
 
       const html = `
         <div style="max-width: 800px; margin: 0 auto; color: #fff; line-height: 1.6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-sizing: border-box; padding: 10px 0px; background: linear-gradient(145deg, #1a1f2b, #0d111a); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
