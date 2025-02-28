@@ -123,8 +123,9 @@ const WeekDays = [
 ]
 
 module.exports = {
-  Day: dayjs().day(),
-  CurrentDate: dayjs().format('YYYY-MM-DD'),
+  Day: dayjs().tz('Asia/Shanghai').day(),
+  CurrentDate: dayjs().tz('Asia/Shanghai').format('YYYY-MM-DD'),
+  Time: dayjs().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss'),
   ProcessEnv: process.env,
   USER,
   PASS,
