@@ -186,7 +186,7 @@ const getLargeMarketInfo = () => {
 const scheduleTask2 = async () => {
   try {
     console.log("启动任务:" + new Date());
-    const fundCodes = ["005918", "161726", "161725", "003096", "001513", "005827", "003984", "001875"];
+    const fundCodes = ["005918", "161725", "003984", "161726",  "003096", "001513", "005827",  "001875"];
     const arr = [];
 
     for (const code of fundCodes) {
@@ -224,7 +224,7 @@ const scheduleTask2 = async () => {
       const html = `
         <div style="max-width: 800px; margin: 0 auto; color: #fff; line-height: 1.6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-sizing: border-box; padding: 10px 0px; background: linear-gradient(145deg, #1a1f2b, #0d111a); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
           <header style="text-align: center; padding: 30px 0; border-bottom: 2px solid rgba(76, 130, 255, 0.2); margin-bottom: 25px;">
-            <h1 style="font-size: 2.0em; font-weight: 700; margin: 0; background: linear-gradient(90deg, #4c82ff, #6d5fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px;">数字金融行情速递</h1>
+            <h1 style="font-size: 2.0em; font-weight: 700; margin: 0; background: linear-gradient(90deg, #4c82ff, #6d5fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px;">DATA CENTER</h1>
           </header>
           <div style="margin: 25px 0; font-size: 0.8em; font-weight: 600;">
             ${trendList.map(item => {
